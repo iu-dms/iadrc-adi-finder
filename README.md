@@ -3,7 +3,7 @@ The Indiana Alzheimer's Disease Research Center collects data and shares with NA
 
 This code takes an input data frame and uses the address data to geocode the participant locations and then spatially join them to census block groups. Once the locations are associated with block groups, we can then merge them with publicly available ADI data from https://www.neighborhoodatlas.medicine.wisc.edu/.
 
-**Please Note**
+**Please Note**  
 This repository includes code to take an input data frame with location data, that likely will be exported straight from REDCap or other database source. IU has a cusomized REDCap API token vault, which we utilize to store and retrieve REDCap API tokens securely. That process is excluded from this code as it would no be applicable to others. We would strongly suggest using the redcapAPI R package (https://github.com/vubiostat/redcapAPI) to push/pull data from REDCap. Similarly, we exclude the last step of importing the data into REDCap or other databases. 
 
 ## ADRCs 
