@@ -37,7 +37,7 @@ address_list$fullAdd <- paste(as.character(address_list$street),
 
 ## GeoCode addresses - order of methods to try from my experience is arcgis, census, osm 
 ##REF: https://jessecambon.github.io/tidygeocoder/reference/geo.html
-geo1 <- address_list |> 
+geolist <- address_list |> 
   geocode(address = fullAdd, 
           lat = latitude, 
           long = longitude, 
@@ -67,8 +67,6 @@ in_crs <- suggest_crs(in_bg)
 
 in_bg_proj <- st_transform(in_bg, crs=6461) |> 
   mutate(GEOID=as.numeric(GEOID))
-
-geolist <- geo1
 
 ##Indiana Addresses
 geolist_sf1 <- geolist |> 
