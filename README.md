@@ -8,6 +8,6 @@ Variable	| Format	| Description
 id	|Numeric or Character	|Participant Unique ID.
 street	|Character	|Street address (required).
 aptno	|Character	|Apartment number or secondary address if applicable.
-city	|Character	|City
-state	|Character (XX)	|State - be consistent with format (e.g. 2 character abbreviation, name spelled out, etc.)
+city	|Character	|City (required)
+state	|Character (XX)	|State abbreviation (required)
 zip	|Numeric	|5-digit zip code
