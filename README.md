@@ -7,9 +7,10 @@ This code takes an input data frame, uses the address data to geocode the partic
 This repository includes code to take an input data frame with location data, which will likely will coming directly from REDCap or other database source. IU has a customized REDCap API token vault which we utilize to store and retrieve REDCap API tokens securely. Those processes (importing address data; exporting ADI data back into REDCap) are excluded from this code as that syntax would not be applicable to others. If you have any questions about how we do this we'd be happy to discuss further. We would strongly suggest using the redcapAPI R package (https://github.com/vubiostat/redcapAPI) to push/pull data from REDCap.
 
 ## ADRC Guidance 
-For ADRCs implementing this code for NACC UDS 4.0 A1 form data collection, the importing/exporting steps excluded would entail:
+For ADRCs implementing this code for NACC UDS 4.0 A1 form data collection, the additional importing/exporting steps would entail:
   * First, exporting or otherwise pulling address data into R from REDCap or another data collection software utilizing the input format as described.
-  * Once the data is processed using the provided code, importing the ADI data into the UDS A1 form in your REDCap project.
+  * The using the provided code to generate ADI scores for your participant list.
+  * Once your data are processed, importing ADI values into the UDS A1 form in your REDCap project.
    * For reference, the Indiana ADRC has set the ADI fields in REDCap as read only, and included a note to alert users that the Data Core will fill in these data:
 
 <img src="A1_Screenshot.png"> 
