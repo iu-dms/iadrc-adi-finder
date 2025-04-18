@@ -107,7 +107,7 @@ adi_joined <- geo_joined |>
 
 ##############################################
 ##Section 4 : Push data to REDCap
-##We have a customized REDCap API token process at IU, but we strongly 
+##We have a customized REDCap API token process at IU that won;t be applicable to other users, but we strongly 
 ##suggest using the redcapAPI package to import/export data from REDCap.
 
 
