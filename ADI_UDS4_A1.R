@@ -19,10 +19,10 @@ options(tigris_use_cache = TRUE)
 ##you will want your input data to eventually be in the same format as the
 ##provided example data 
 
+df <- read.csv("ADI_Example_Input_Data.csv")
+
 #######################################
 ##Section 1 - geocode needed addresses
-
-df <- read.csv("ADI_Example_Input_Data.csv")
 
 # only keep records with a street address
 address_list <- df |> 
