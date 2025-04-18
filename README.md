@@ -10,7 +10,10 @@ This repository includes code to take an input data frame with location data, wh
 For ADRCs implementing this code for NACC UDS 4.0 A1 form data collection, the importing/exporting steps excluded would entail:
   * First, exporting or otherwise pulling address data into R from REDCap or another data collection software utilizing the input format as described.
   * Once the data is processed using the provided code, importing the ADI data into the UDS A1 form in your REDCap project.
-    * For reference, the Indiana ADRC has set the ADI fields in REDCap as read only, and included a note to alert users that the Data Core will fill in these data.
+   * For reference, the Indiana ADRC has set the ADI fields in REDCap as read only, and included a note to alert users that the Data Core will fill in these data:
+   
+![Screenshot of REDCap A1 Form ADI Questions](/assets/images/A1_Screenshot.png)
+
 
 
 ### Required Input Variables
