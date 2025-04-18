@@ -13,6 +13,7 @@ For ADRCs implementing this code for NACC UDS 4.0 A1 form data collection, the i
    * For reference, the Indiana ADRC has set the ADI fields in REDCap as read only, and included a note to alert users that the Data Core will fill in these data:
    
 ![Screenshot of REDCap A1 Form ADI Questions](/assets/images/A1_Screenshot.png)
+<img width="641" alt="A1_Screenshot" src="https://github.com/user-attachments/assets/5ab86584-2812-4d85-8b7b-dd38e9301e8f" />
 
 
 
