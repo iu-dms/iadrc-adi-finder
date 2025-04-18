@@ -1,4 +1,4 @@
-# Background
+## Background
 The Indiana Alzheimer's Disease Research Center collects and shares data with NACC, as part of the UDS 4.0 data collection. ADI data is expected for each ADRC particpant, and NACC guidelines suggest that clinical coordinators hand enter addresses into a website in order to return ADI data. This code allows for batch processing of location data, which is much more efficient than staff manually getting ADI data for every participant.
 
 This code takes an input data frame, uses the address data to geocode the participant locations and then spatially joins them to census block groups. Once the locations are associated with block groups, we can then merge them with publicly available ADI data from https://www.neighborhoodatlas.medicine.wisc.edu/.
