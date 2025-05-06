@@ -9,7 +9,7 @@ This repository includes code to take an input data frame with location data, wh
 ## ADRC Guidance 
 For ADRCs implementing this code for NACC UDS 4.0 A1 form data collection, the additional importing/exporting steps would entail:
   * First, exporting or otherwise pulling address data into R from REDCap or another data collection software utilizing the input format as described.
-  * The using the provided code to generate ADI scores for your participant list.
+  * Then using the provided code to generate ADI scores for your participant list.
   * Once your data are processed, importing ADI values into the UDS A1 form in your REDCap project.
     * Additonal coding may be necessary to create longitudinal ADI data with changes of address over time and follow-up UDS4 visits, but the basic principle's of geocoding the addresses and spatially joining to ADI data remain the same.  
    
