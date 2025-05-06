@@ -11,7 +11,7 @@ For ADRCs implementing this code for NACC UDS 4.0 A1 form data collection, the a
   * First, exporting or otherwise pulling address data into R from REDCap or another data collection software utilizing the input format as described.
   * The using the provided code to generate ADI scores for your participant list.
   * Once your data are processed, importing ADI values into the UDS A1 form in your REDCap project.
-    * Additonal coding may be necessary to creat longitudinal ADI data with changes of address over time, but the basic principle's of geocoding the addresses and spatially joining to ADI data remain the same.  
+    * Additonal coding may be necessary to create longitudinal ADI data with changes of address over time and follow-up UDS4 visits, but the basic principle's of geocoding the addresses and spatially joining to ADI data remain the same.  
    
   * For reference, the Indiana ADRC has set the ADI fields in REDCap as read only, and included a note to alert users that the Data Core will fill in these data:
 
