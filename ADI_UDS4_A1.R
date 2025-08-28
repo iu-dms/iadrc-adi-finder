@@ -14,29 +14,28 @@ invisible(lapply(packages, library, character.only = TRUE))
 
 options(tigris_use_cache = TRUE)
 
-#######################################
+#####################################################
 ##Section 0 - import address data from REDCap or other source
-##you will want your input data to eventually be in the same format as the
-##provided example data 
+##You will want your input data to eventually be in the same format as the provided example data 
 
 df <- read.csv("ADI_Example_Input_Data.csv")
 
-#######################################
-##Section 1 - geocode needed addresses
+#####################################################
+##Section 1 - Geocode needed addresses
 
-# only keep records with a street address
+##Only keep records with a street address
 address_list <- df |> 
   filter(!is.na(street))
 
-##create one field with all address information
+##Create one field with all address information
 address_list$fullAdd <- paste(as.character(address_list$street),
                               as.character(address_list$city),
                               as.character(address_list$state),
                               as.character(address_list$zipcode))
 
 
-## GeoCode addresses - order of methods to try from my experience is arcgis, census, osm 
-##REF: https://jessecambon.github.io/tidygeocoder/reference/geo.html
+##GeoCode addresses - order of methods to try from our experience is arcgis, census, osm 
+##REFERENCE: https://jessecambon.github.io/tidygeocoder/reference/geo.html
 geolist <- address_list |> 
   geocode(address = fullAdd, 
           lat = latitude, 
@@ -45,37 +44,42 @@ geolist <- address_list |>
           mode='single', 
           limit=1)
 
-##check for uncoded addresses
-uncoded <- geo1 |>
+##Check for uncoded addresses - try other methods above if any exist
+uncoded <- geolist |>
   filter(is.na(latitude)) 
 
+##Move forward only with non-missing coordinates
+geolist_final <- geolist |>
+  filter(!is.na(latitude))
 
-########################################################################################
-## Section 2 - spatial join address coordinates with ADI census block groups
+
+#####################################################
+## Section 2 - Spatial join address coordinates with ADI census block groups
 ##Note: From my experience, we can only really do 1 state at a time because of the 
 ##different projections needed for each state. Depending on accuracy needs, may be acceptable to
 ##use lower resolution datasets for all states at the same time. 
-## Code below only focuses on 1 state at a time (Indiana) with the detailed block data.
+##Code below only focuses on 1 state at a time (Indiana) with the detailed block data.
 
-##REF: https://walker-data.com/census-r/spatial-analysis-with-us-census-data.html (Section 7.1.1)
-##REF: https://rdrr.io/cran/crsuggest/src/R/suggest_crs.R
+##REFERENCE: https://walker-data.com/census-r/spatial-analysis-with-us-census-data.html (Section 7.1.1)
+##REFERENCE: https://rdrr.io/cran/crsuggest/src/R/suggest_crs.R
 
 in_bg <- block_groups("IN")
 
-## use below function once to get suggestion of most appropriate projection 
+##Use below function once to get suggestion of most appropriate projection 
 in_crs <- suggest_crs(in_bg)
 
 in_bg_proj <- st_transform(in_bg, crs=6461) |> 
   mutate(GEOID=as.numeric(GEOID))
 
 ##Indiana Addresses
-geolist_sf1 <- geolist |> 
+geolist_sf1 <- geolist_final |> 
   st_as_sf(coords = c("longitude", "latitude"),
            crs = 4326) |> 
   st_transform(6461) |> 
   select(id, state, geometry, fullAdd)
 
-## Note: if you'd like to quickly inspect the geocoding/projection, one option is to use mapview
+##Note: if you'd like to quickly inspect the geocoding/projection, one option is to use mapview
+##This is not necessary and can be skipped
 mapview(
   geolist_sf1
 ) +
@@ -85,29 +89,43 @@ mapview(
     legend = FALSE
   )
 
-##spatially join our coordinates into block groups
+##Ppatially join our coordinates into block groups
 geo_joined <- st_join(
   geolist_sf1,
   in_bg_proj
 ) |> 
   st_drop_geometry()
 
-##############################################
-##Section 3 : join with Neighborhood Atlas Data
+#####################################################
+##Section 3 : Join with Neighborhood Atlas Data
 ##publicly available at https://www.neighborhoodatlas.medicine.wisc.edu/
-##using most recent (2022) version
+##using most recent (2023) version
 
-adi <- read.csv("US_2022_ADI_Census_Block_Group_v4_0_1.csv") |> 
+adi <- read.csv("US_2023_ADI_Census_Block_Group_v4_0_1.csv") |> 
   rename(GEOID=FIPS)
 
 #join joined data with WI ADI now that we have our address list in block groups
 adi_joined <- geo_joined |> 
-  left_join(adi, by=c("GEOID"))
+  left_join(adi, by=c("GEOID")) |> 
+  ##add NACC numeric codes for PH, GQ, PH-GQ, QDI
+  mutate(ADI_NATRANK=case_when(ADI_NATRANK=="PH" ~ '884',
+                               ADI_NATRANK=="GQ" ~ '885',
+                               ADI_NATRANK=="PH-GQ" ~ '886',
+                               ADI_NATRANK=="QDI" ~ '887',
+                          TRUE ~ as.character(ADI_NATRANK))) |> 
+  mutate(ADI_STATERNK=case_when(ADI_STATERNK=="PH" ~ '884',
+                                ADI_STATERNK=="GQ" ~ '885',
+                                ADI_STATERNK=="PH-GQ" ~ '886',
+                                ADI_STATERNK=="QDI" ~ '887',
+                            TRUE ~ as.character(ADI_STATERNK)))
 
 
 ##############################################
-##Section 4 : Push data to REDCap (omitted)
-##We have a customized REDCap API token process at IU that won't be applicable to other users, but we strongly 
-##suggest using the redcapAPI package to import/export data from REDCap.
+##Section 4 : Push data to REDCap
+##We have a customized REDCap API token process at IU that won't be applicable to other users, but we  
+##suggest using the redcapAPI package to import/export data from REDCap. 
+
+
+
 
 
